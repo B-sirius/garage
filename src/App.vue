@@ -15,10 +15,11 @@
                 </div>
             </header>
             <div class="content">
-                <div class="work-container">
+                <div class="work-container" v-for="work in workList">
+                    <img :src="work.url" class="bg">
                     <div class="work-info">
                         <div class="info-container">
-                            <span class="dark">MUSIC-PLAYER</span>
+                            <span class="dark">{{work.title}}</span>
                         </div>
                     </div>
                     <a class="link" href="http://music.b-sirius.me/" target="_blank"></a>
@@ -29,11 +30,25 @@
 </template>
 <script>
 export default {
-    name: 'app'
+    data: function() {
+        return {
+            workList: [{
+                title: 'MUSIC-PLAYER',
+                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/music-player.jpg'
+            }, {
+                title: 'RUSHB.JS',
+                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/rushB.jpg'
+            }, {
+                title: 'COLOR-PICKER',
+                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/color-picker.jpg'
+            }]
+        }
+    }
 }
 </script>
 <style lang="scss">
 $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
+
 #app {
     font-family: "Delius Unicase", cursive, "Microsoft Yahei", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     background: #26252A;
@@ -88,6 +103,9 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
                 margin-bottom: 60px;
                 margin-right: 50px;
                 border-radius: 15px;
+                .bg {
+                    position: absolute;
+                }
                 .work-info {
                     display: flex;
                     position: absolute;
@@ -101,7 +119,8 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
                         display: flex;
                         flex-direction: column;
                         margin: auto;
-                        .dark, .light {
+                        .dark,
+                        .light {
                             font-family: 'BenchNine', sans-serif;
                             font-size: 22px;
                         }
