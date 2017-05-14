@@ -16,31 +16,38 @@
             </header>
             <div class="content">
                 <div class="work-container" v-for="work in workList">
-                    <img :src="work.url" class="bg">
+                    <img :src="work.bg" class="bg">
                     <div class="work-info">
                         <div class="info-container">
                             <span class="dark">{{work.title}}</span>
                         </div>
                     </div>
-                    <a class="link" href="http://music.b-sirius.me/" target="_blank"></a>
+                    <a class="link" :href="work.url" target="_blank"></a>
                 </div>
             </div>
         </div>
     </div>
 </template>
 <script>
+import musicPlayerBg from './assets/music-player.jpg';
+import rushBBg from './assets/rushB.jpg';
+import colorPickerBg from './assets/color-picker.jpg';
+
 export default {
     data: function() {
         return {
             workList: [{
                 title: 'MUSIC-PLAYER',
-                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/music-player.jpg'
+                bg: musicPlayerBg,
+                url: 'http://music.b-sirius.me/'
             }, {
                 title: 'RUSHB.JS',
-                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/rushB.jpg'
+                bg: rushBBg,
+                url: 'http://rushb.b-sirius.me/'
             }, {
                 title: 'COLOR-PICKER',
-                url: 'http://7xrkxs.com1.z0.glb.clouddn.com/garage/color-picker.jpg'
+                bg: colorPickerBg,
+                url: 'http://colorpicker.b-sirius.me/'
             }]
         }
     }
@@ -103,6 +110,7 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
                 margin-bottom: 60px;
                 margin-right: 50px;
                 border-radius: 15px;
+                overflow: hidden;
                 .bg {
                     position: absolute;
                 }
