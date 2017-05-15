@@ -15,8 +15,7 @@
                 </div>
             </header>
             <div class="content">
-                <div class="work-container" v-for="work in workList">
-                    <img :src="work.bg" class="bg">
+                <div class="work-container hide" ref="workContainer" v-for="work in workList">
                     <div class="work-info">
                         <div class="info-container">
                             <span class="dark">{{work.title}}</span>
@@ -50,12 +49,43 @@ export default {
                 url: 'http://colorpicker.b-sirius.me/'
             }]
         }
+    },
+
+    methods: {
+        _initWorkContainer: function() {
+            let self = this;
+
+            for (let i = this.$refs.workContainer.length - 1; i >= 0; i--) {
+                let workContainer = this.$refs.workContainer[i];
+
+                let img = new Image();
+                img.src = this.workList[i].bg;
+
+                img.onload = function() {
+                    self._setBg(workContainer, img.src);
+                    workContainer.classList.remove('hide');
+                }
+            }
+        },
+
+        _setBg: function(el, bg) {
+            el.style.background = `url('${bg}') center no-repeat`;
+            el.style.backgroundSize = 'cover';
+        }
+    },
+
+    mounted: function() {
+        this._initWorkContainer();
+    },
+
+    computed: function() {
+
     }
 }
 </script>
 <style lang="scss">
 $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
-
+$width-sm: 1000px;
 #app {
     font-family: "Delius Unicase", cursive, "Microsoft Yahei", "Helvetica Neue", "Helvetica", "Arial", sans-serif;
     background: #26252A;
@@ -69,13 +99,36 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
             display: flex;
             justify-content: space-between;
             margin-bottom: 50px;
+            @media (max-width: $width-sm) {
+                flex-direction: column;
+                justify-content: center;
+            }
+            .title {
+                color: #fff;
+                font-size: 64px;
+                @media (max-width: $width-sm) {
+                    font-size: 40px;
+                    margin-bottom: 20px;
+                }
+                .face {
+                    font-size: 20px;
+                    vertical-align: 4px;
+                    @media (max-width: $width-sm) {
+                        display: none;
+                    }
+                }
+            }
             .link-container {
                 display: flex;
+                justify-content: flex-start;
                 .list {
-                    margin: auto;
+                    margin: auto 0;
                     display: flex;
                     flex-direction: column;
                     align-items: flex-end;
+                    @media (max-width: $width-sm) {
+                        align-items: flex-start;
+                    }
                     .list-item {
                         margin-bottom: 5px;
                         &:last-child {
@@ -85,16 +138,11 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
                             color: #fff;
                             text-decoration: none;
                             font-size: 20px;
+                            @media (max-width: $width-sm) {
+                                font-size: 14px;
+                            }
                         }
                     }
-                }
-            }
-            .title {
-                color: #fff;
-                font-size: 64px;
-                .face {
-                    font-size: 20px;
-                    vertical-align: 4px;
                 }
             }
         }
@@ -102,6 +150,9 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
             display: flex;
             flex-wrap: wrap;
             justify-content: flex-start;
+            @media (max-width: $width-sm) {
+                justify-content: center;
+            }
             .work-container {
                 position: relative;
                 width: 180px;
@@ -111,6 +162,11 @@ $haxagonURL: "http://7xrkxs.com1.z0.glb.clouddn.com/garage/hexagon.svg";
                 margin-right: 50px;
                 border-radius: 15px;
                 overflow: hidden;
+                transition: 0.5s;
+                &.hide {
+                    transform: translateY(-20px);
+                    opacity: 0;
+                }
                 .bg {
                     position: absolute;
                 }
